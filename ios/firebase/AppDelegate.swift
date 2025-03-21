@@ -2,10 +2,14 @@ import UIKit
 import React
 import React_RCTAppDelegate
 import ReactAppDependencyProvider
+import Firebase
+import GoogleMaps
 
 @main
 class AppDelegate: RCTAppDelegate {
   override func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]? = nil) -> Bool {
+    GMSServices.provideAPIKey("AIzaSyAnQfD9RWGUsSU_7WcF6DqL6S87brl7MA8")
+    FirebaseApp.configure()
     self.moduleName = "firebase"
     self.dependencyProvider = RCTAppDependencyProvider()
 
