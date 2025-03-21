@@ -1,12 +1,16 @@
-import {SafeAreaView, StyleSheet, View} from 'react-native';
+import {SafeAreaView, StyleSheet, View, Text} from 'react-native';
 import React, {useEffect, useState} from 'react';
-import MapView, {Marker, PROVIDER_GOOGLE} from 'react-native-maps';
+import MapView, {Callout, Marker, PROVIDER_GOOGLE} from 'react-native-maps';
 import {
   collection,
   getDocs,
   getFirestore,
 } from '@react-native-firebase/firestore';
 import Geolocation from '@react-native-community/geolocation';
+import CustomMarker from '../../components/ui/customMarker';
+import CustomCallout from '../../components/ui/CustomCallout';
+import {convertDate} from '../../utils/functions';
+import {screenWidth} from '../../utils/contants';
 
 const Maps = () => {
   const [notes, setNotes] = useState([]);
@@ -48,33 +52,41 @@ const Maps = () => {
     );
   };
 
-  console.log(position?.coords.latitude);
-  console.log(position?.coords.longitude);
-
   useEffect(() => {
     getNotes();
     getPosition();
   }, []);
 
+  console.log(notes);
+
   return (
     <SafeAreaView style={styles.container}>
       <MapView
         // provider={PROVIDER_GOOGLE}
+        // mapId="a9320aaf1bcb47ad"
         style={styles.map}
         region={initialRegion}>
-        {notes.map((item, index) => {
-          const coordinate = {
-            latitude: item.coordinate.latitude,
-            longitude: item.coordinate.longitude,
-          };
-
+        {notes.map((marker, index) => {
+          console.log(convertDate(marker.createdAt));
           return (
             <Marker
               key={index}
-              coordinate={coordinate}
-              title={item?.title}
-              description={item?.description}
-            />
+              coordinate={{
+                longitude: marker.coordinate.longitude,
+                latitude: marker.coordinate.latitude,
+              }}
+              // title={marker?.title}
+              // description={marker?.description}
+            >
+              <Callout>
+                <View style={{padding: 5, width: screenWidth * 0.5}}>
+                  <Text style={{fontWeight: 'bold', fontSize: 14}}>
+                    {marker.title}
+                  </Text>
+                  <Text style={{fontSize: 12}}>{marker.description}</Text>
+                </View>
+              </Callout>
+            </Marker>
           );
         })}
 
@@ -82,8 +94,9 @@ const Maps = () => {
           coordinate={{
             latitude: position?.coords.latitude,
             longitude: position?.coords.longitude,
-          }}
-        />
+          }}>
+          <CustomMarker />
+        </Marker>
       </MapView>
     </SafeAreaView>
   );
