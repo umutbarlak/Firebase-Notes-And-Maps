@@ -2,12 +2,18 @@ import {StyleSheet, TouchableOpacity} from 'react-native';
 import React from 'react';
 import {screenHeight, screenWidth} from '../../utils/contants';
 import Colors from '../../theme/colors';
-import {Add} from 'iconsax-react-native';
 
 const FloatActionButton = props => {
+  const {icon, bg = Colors.Purple, customStyle = {}} = props;
+
+  console.log(customStyle);
+
   return (
-    <TouchableOpacity activeOpacity={0.6} {...props} style={styles.container}>
-      <Add size={44} color={Colors.White} />
+    <TouchableOpacity
+      activeOpacity={0.6}
+      {...props}
+      style={[styles.container, {backgroundColor: bg}, customStyle]}>
+      {icon}
     </TouchableOpacity>
   );
 };

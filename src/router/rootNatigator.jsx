@@ -39,14 +39,7 @@ const RootNatigator = () => {
                 flexDirection: 'row',
                 alignItems: 'center',
                 gap: 10,
-                marginRight: 10,
               }}>
-              <AddSquare
-                onPress={() => navigation.navigate(ADDNOTE)}
-                size="28"
-                color={Colors.Black}
-                variant="Outline"
-              />
               <Note1
                 onPress={() => navigation.navigate(NOTES)}
                 size="28"

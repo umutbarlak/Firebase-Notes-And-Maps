@@ -9,6 +9,8 @@ import FloatActionButton from '../../components/ui/floatActionButton';
 import {screenStyle} from '../../styles/screenStyles';
 import NoteItem from '../../components/notes/noteItem';
 import {ADDNOTE} from '../../utils/routes';
+import {Add, Icon} from 'iconsax-react-native';
+import Colors from '../../theme/colors';
 
 const Notes = ({navigation}) => {
   const [notes, setNotes] = useState([]);
@@ -41,7 +43,11 @@ const Notes = ({navigation}) => {
         renderItem={({item}) => <NoteItem item={item} />}
         ItemSeparatorComponent={() => <View style={{height: 10}} />}
       />
-      <FloatActionButton onPress={() => navigation.navigate(ADDNOTE)} />
+      <FloatActionButton
+        onPress={() => navigation.navigate(ADDNOTE)}
+        icon={<Add size={30} color={Colors.White} />}
+        bg={Colors.Purple}
+      />
     </View>
   );
 };

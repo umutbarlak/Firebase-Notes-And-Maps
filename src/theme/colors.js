@@ -8,6 +8,7 @@ const Colors = {
   Black: '#000',
   SoftBlue: '#FF9874',
   Gray: '#8f9bb3',
+  Green: '#1F7D53',
 };
 
 export default Colors;

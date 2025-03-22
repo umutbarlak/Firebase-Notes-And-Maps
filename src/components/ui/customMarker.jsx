@@ -6,7 +6,7 @@ import Colors from '../../theme/colors';
 const CustomMarker = () => {
   return (
     <View>
-      <Location size="32" color={Colors.Blue} variant="Bold" />
+      <Location size="36" color={Colors.Blue} variant="Bold" />
     </View>
   );
 };

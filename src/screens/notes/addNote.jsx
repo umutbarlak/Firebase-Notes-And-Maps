@@ -15,8 +15,12 @@ import {
 import {noteSchema} from '../../utils/schemas';
 import {Toast} from 'toastify-react-native';
 
-const AddNote = ({navigation}) => {
+const AddNote = ({navigation, route}) => {
   const [loading, setLoading] = useState(false);
+  const coordinate = route?.params?.coordinate;
+
+  console.log(coordinate);
+
   const addNote = async note => {
     setLoading(true);
 
@@ -26,6 +30,7 @@ const AddNote = ({navigation}) => {
         ...note,
         lastDate: Timestamp.fromDate(new Date(note.lastDate)),
         createdAt: Timestamp.now(),
+        coordinate: coordinate,
       });
 
       navigation.goBack();
@@ -38,8 +43,6 @@ const AddNote = ({navigation}) => {
 
     setLoading(false);
   };
-
-  console.log(loading);
 
   return (
     <View style={screenStyle.container}>

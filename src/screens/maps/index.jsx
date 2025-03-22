@@ -1,6 +1,6 @@
 import {SafeAreaView, StyleSheet, View, Text} from 'react-native';
 import React, {useEffect, useState} from 'react';
-import MapView, {Callout, Marker, PROVIDER_GOOGLE} from 'react-native-maps';
+import MapView, {Callout, Marker} from 'react-native-maps';
 import {
   collection,
   getDocs,
@@ -8,19 +8,23 @@ import {
 } from '@react-native-firebase/firestore';
 import Geolocation from '@react-native-community/geolocation';
 import CustomMarker from '../../components/ui/customMarker';
-import CustomCallout from '../../components/ui/CustomCallout';
-import {convertDate} from '../../utils/functions';
-import {screenWidth} from '../../utils/contants';
+import {screenHeight, screenWidth} from '../../utils/contants';
+import FloatActionButton from '../../components/ui/floatActionButton';
+import {Add, ArrowRight, Map} from 'iconsax-react-native';
+import Colors from '../../theme/colors';
+import {ADDNOTE} from '../../utils/routes';
 
-const Maps = () => {
+const Maps = ({navigation}) => {
   const [notes, setNotes] = useState([]);
   const [position, setPosition] = useState(null);
+  const [coordinate, setCoordinate] = useState(null);
+  const [mapType, setmapType] = useState('terrain');
 
   const initialRegion = {
     latitude: position?.coords?.latitude || 40.982634,
     longitude: position?.coords?.longitude || 29.024495,
-    latitudeDelta: 0.0115,
-    longitudeDelta: 0.0221,
+    latitudeDelta: 0.02,
+    longitudeDelta: 0.03,
   };
 
   const getNotes = async () => {
@@ -52,52 +56,77 @@ const Maps = () => {
     );
   };
 
+  const changeMapType = () => {
+    console.log(mapType);
+    if (mapType === 'satellite') {
+      setmapType('terrain');
+    } else {
+      setmapType('satellite');
+    }
+  };
+
   useEffect(() => {
     getNotes();
     getPosition();
   }, []);
 
-  console.log(notes);
-
   return (
     <SafeAreaView style={styles.container}>
       <MapView
         // provider={PROVIDER_GOOGLE}
-        // mapId="a9320aaf1bcb47ad"
+        showsTraffic
+        mapType={mapType}
+        zoomEnabled={true}
+        zoomTapEnabled={true}
+        onPress={pos => setCoordinate(pos.nativeEvent.coordinate)}
+        showsUserLocation
         style={styles.map}
         region={initialRegion}>
-        {notes.map((marker, index) => {
-          console.log(convertDate(marker.createdAt));
-          return (
-            <Marker
-              key={index}
-              coordinate={{
-                longitude: marker.coordinate.longitude,
-                latitude: marker.coordinate.latitude,
-              }}
-              // title={marker?.title}
-              // description={marker?.description}
-            >
-              <Callout>
-                <View style={{padding: 5, width: screenWidth * 0.5}}>
-                  <Text style={{fontWeight: 'bold', fontSize: 14}}>
-                    {marker.title}
-                  </Text>
-                  <Text style={{fontSize: 12}}>{marker.description}</Text>
-                </View>
-              </Callout>
-            </Marker>
-          );
-        })}
+        {notes &&
+          notes.map((marker, index) => {
+            return (
+              <Marker
+                key={index}
+                coordinate={{
+                  longitude: marker.coordinate.longitude,
+                  latitude: marker.coordinate.latitude,
+                }}>
+                <Callout>
+                  <View style={{padding: 5, width: screenWidth * 0.5}}>
+                    <Text style={{fontWeight: 'bold', fontSize: 14}}>
+                      {marker.title}
+                    </Text>
+                    <Text style={{fontSize: 12}}>{marker.description}</Text>
+                  </View>
+                </Callout>
+              </Marker>
+            );
+          })}
 
-        <Marker
-          coordinate={{
-            latitude: position?.coords.latitude,
-            longitude: position?.coords.longitude,
-          }}>
-          <CustomMarker />
-        </Marker>
+        {coordinate && (
+          <Marker coordinate={coordinate}>
+            <CustomMarker />
+          </Marker>
+        )}
       </MapView>
+      {coordinate && (
+        <FloatActionButton
+          bg={Colors.Green}
+          icon={<ArrowRight size={30} color={Colors.White} />}
+          onPress={() => navigation.navigate(ADDNOTE, {coordinate})}
+        />
+      )}
+      <FloatActionButton
+        customStyle={{
+          top: screenHeight * 0.01,
+          width: screenWidth * 0.12,
+          height: screenWidth * 0.12,
+          right: screenWidth * 0.03,
+        }}
+        bg={Colors.Gray}
+        icon={<Map size={30} color={Colors.White} />}
+        onPress={changeMapType}
+      />
     </SafeAreaView>
   );
 };
