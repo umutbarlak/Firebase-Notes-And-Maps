@@ -1,6 +1,6 @@
-import {SafeAreaView, StyleSheet, View, Text} from 'react-native';
+import {SafeAreaView, StyleSheet, View, Text, Platform} from 'react-native';
 import React, {useEffect, useState} from 'react';
-import MapView, {Callout, Marker} from 'react-native-maps';
+import MapView, {Callout, Marker, PROVIDER_GOOGLE} from 'react-native-maps';
 import {
   collection,
   getDocs,
@@ -10,7 +10,7 @@ import Geolocation from '@react-native-community/geolocation';
 import CustomMarker from '../../components/ui/customMarker';
 import {screenHeight, screenWidth} from '../../utils/contants';
 import FloatActionButton from '../../components/ui/floatActionButton';
-import {Add, ArrowRight, Map} from 'iconsax-react-native';
+import {ArrowRight, Map} from 'iconsax-react-native';
 import Colors from '../../theme/colors';
 import {ADDNOTE} from '../../utils/routes';
 
@@ -73,7 +73,7 @@ const Maps = ({navigation}) => {
   return (
     <SafeAreaView style={styles.container}>
       <MapView
-        // provider={PROVIDER_GOOGLE}
+        provider={Platform.OS !== 'ios' ? PROVIDER_GOOGLE : undefined}
         showsTraffic
         mapType={mapType}
         zoomEnabled={true}

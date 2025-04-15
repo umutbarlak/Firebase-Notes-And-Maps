@@ -31,13 +31,5 @@ const styles = StyleSheet.create({
     right: screenWidth * 0.05,
     bottom: screenHeight * 0.05,
     borderRadius: 50,
-    shadowColor: '#000',
-    shadowOffset: {
-      width: 0,
-      height: 4,
-    },
-    shadowOpacity: 0.32,
-    shadowRadius: 5.46,
-    elevation: 9,
   },
 });

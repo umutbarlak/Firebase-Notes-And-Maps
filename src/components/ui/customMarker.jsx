@@ -4,11 +4,7 @@ import {Location} from 'iconsax-react-native';
 import Colors from '../../theme/colors';
 
 const CustomMarker = () => {
-  return (
-    <View>
-      <Location size="36" color={Colors.Blue} variant="Bold" />
-    </View>
-  );
+  return <Location size="24" color={Colors.Blue} variant="Bold" />;
 };
 
 export default CustomMarker;

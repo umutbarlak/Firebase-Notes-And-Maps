@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "1008057746208",
+    "project_id": "map-notes-cb267",
+    "storage_bucket": "map-notes-cb267.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1008057746208:android:7c8dd8d041395bd81f0d45",
+        "android_client_info": {
+          "package_name": "com.firebase"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCfqZqgiswqP8NVgCZFb1Ox0rnCJ2Y2lNM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

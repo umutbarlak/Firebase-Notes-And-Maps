@@ -1,4 +1,4 @@
-import {FlatList, StyleSheet, Text, View} from 'react-native';
+import {FlatList, StyleSheet, View} from 'react-native';
 import React, {useEffect, useState} from 'react';
 import {
   getFirestore,
@@ -9,14 +9,16 @@ import FloatActionButton from '../../components/ui/floatActionButton';
 import {screenStyle} from '../../styles/screenStyles';
 import NoteItem from '../../components/notes/noteItem';
 import {ADDNOTE} from '../../utils/routes';
-import {Add, Icon} from 'iconsax-react-native';
+import {Add} from 'iconsax-react-native';
 import Colors from '../../theme/colors';
+import {getApp} from '@react-native-firebase/app';
 
 const Notes = ({navigation}) => {
   const [notes, setNotes] = useState([]);
   const getNotes = async () => {
     try {
-      const db = getFirestore();
+      const app = getApp();
+      const db = getFirestore(app);
       const notesCollection = collection(db, 'Notes');
       const querySnapshot = await getDocs(notesCollection);
       let notes = [];
@@ -42,11 +44,6 @@ const Notes = ({navigation}) => {
         data={notes}
         renderItem={({item}) => <NoteItem item={item} />}
         ItemSeparatorComponent={() => <View style={{height: 10}} />}
-      />
-      <FloatActionButton
-        onPress={() => navigation.navigate(ADDNOTE)}
-        icon={<Add size={30} color={Colors.White} />}
-        bg={Colors.Purple}
       />
     </View>
   );
